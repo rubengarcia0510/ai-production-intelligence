@@ -1,0 +1,12 @@
+{
+  "$schema": "https://angular.io/cli/schema.json",
+  "version": 1,
+  "projects": {
+    "frontend": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {}
+    }
+  }
+}

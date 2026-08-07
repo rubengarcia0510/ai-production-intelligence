@@ -1,0 +1,8 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+:root {
+  --background: #121212;
+  --foreground: #ffffff;
+}
+
+html, body, app-root { height: 100%; margin: 0 }
