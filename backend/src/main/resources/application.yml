@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+# CLICKHOUSE_HOST and CLICKHOUSE_PORT are read from env at runtime in docker-compose
+# Example: CLICKHOUSE_HOST=clickhouse CLICKHOUSE_PORT=8123
