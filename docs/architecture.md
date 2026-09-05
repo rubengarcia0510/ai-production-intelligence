@@ -86,3 +86,18 @@ This establishes a working data path before introducing agentic reasoning.
 ## Definition of the foundation
 
 The foundation is ready when the repository builds, the frontend/backend boundaries are clear, ClickHouse connectivity can be validated locally, and the first production-event vertical slice can be implemented without changing the overall architecture.
+## Local ClickHouse infrastructure
+
+ClickHouse is provided as local infrastructure through Docker Compose.
+
+Start the service with:
+```bash
+docker compose up -d
+```
+The ClickHouse HTTP interface is exposed on port 8123 and the native interface on port 9000.
+
+The Docker Compose configuration uses a named volume (clickhouse_data) to persist ClickHouse data.
+
+For containerized deployments such as Render, Dockerfile.clickhouse provides the ClickHouse server image with the same exposed ports.
+
+This infrastructure setup is intentionally separated from the Spring Boot integration, which is handled in APIACC-3.
