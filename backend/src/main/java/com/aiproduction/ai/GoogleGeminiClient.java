@@ -4,12 +4,15 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Conditional;
+import org.springframework.context.annotation.Profile;
+
 
 @Component
+@Profile("!test")
 @Conditional(GeminiConfiguredCondition.class)
 public class GoogleGeminiClient implements GeminiClient {
 
-    private static final String MODEL = "gemini-2.5-flash";
+    private static final String MODEL = "gemini-3.6-flash";
 
     private final Client client;
 
