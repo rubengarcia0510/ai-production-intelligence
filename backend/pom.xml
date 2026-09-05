@@ -17,6 +17,7 @@
     <java.version>21</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <clickhouse-jdbc.version>0.8.4</clickhouse-jdbc.version>
   </properties>
 
   <dependencies>
@@ -34,7 +35,13 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jdbc</artifactId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.clickhouse</groupId>
+      <artifactId>clickhouse-jdbc</artifactId>
+      <version>${clickhouse-jdbc.version}</version>
+      <classifier>http</classifier>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
