@@ -2,7 +2,7 @@ package com.aiproduction.agent;
 
 import com.google.adk.agents.LlmAgent;
 import com.google.adk.models.Gemini;
-import com.google.adk.models.VertexCredentials;
+import com.google.genai.Client;
 import com.google.adk.runner.InMemoryRunner;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.adk.sessions.SessionKey;
@@ -39,15 +39,16 @@ public class ProductionIntelligenceAgent {
             throw new IllegalStateException("Unable to obtain Google Cloud application credentials", e);
         }
 
-        VertexCredentials vertexCredentials = VertexCredentials.builder()
+        Client client = Client.builder()
                 .project(project)
                 .location(location)
+                .vertexAI(true)
                 .credentials(credentials)
                 .build();
 
         Gemini gemini = Gemini.builder()
                 .modelName(MODEL)
-                .vertexCredentials(vertexCredentials)
+                .apiClient(client)
                 .build();
 
         LlmAgent agent = LlmAgent.builder()
