@@ -1,0 +1,152 @@
+<div class="app-shell">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">PRODUCTION INTELLIGENCE</span>
+      <h1>AI Production Intelligence</h1>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="loadDashboard()"
+      [disabled]="loadingEvents || loadingAnalysis">
+      <mat-icon>refresh</mat-icon>
+      Refresh
+    </button>
+  </header>
+
+  <main class="dashboard">
+
+    <section class="production-header">
+      <div>
+        <span class="section-label">ACTIVE PRODUCTION</span>
+        <h2>{{ productionId }}</h2>
+      </div>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        Live
+      </div>
+    </section>
+
+    @if (error) {
+      <div class="error-banner">
+        {{ error }}
+      </div>
+    }
+
+    <section class="analysis-grid">
+
+      <mat-card class="analysis-card">
+        <mat-card-header>
+          <mat-card-title>AI Summary</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          @if (loadingAnalysis) {
+            <div class="skeleton skeleton-large"></div>
+            <div class="skeleton skeleton-medium"></div>
+            <div class="skeleton skeleton-small"></div>
+          } @else if (analysis) {
+            <p class="analysis-text">
+              {{ analysis.summary }}
+            </p>
+          } @else {
+            <p class="muted">No analysis available.</p>
+          }
+
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="recommendation-card">
+        <mat-card-header>
+          <mat-card-title>AI Recommendation</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          @if (loadingAnalysis) {
+            <div class="skeleton skeleton-large"></div>
+            <div class="skeleton skeleton-medium"></div>
+          } @else if (analysis) {
+            <p class="analysis-text">
+              {{ analysis.recommendation }}
+            </p>
+          } @else {
+            <p class="muted">No recommendation available.</p>
+          }
+
+        </mat-card-content>
+      </mat-card>
+
+    </section>
+
+    <section class="events-section">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-label">PRODUCTION FEED</span>
+          <h2>Recent Events</h2>
+        </div>
+
+        @if (!loadingEvents) {
+          <span class="event-count">
+            {{ events.length }} events
+          </span>
+        }
+      </div>
+
+      @if (loadingEvents) {
+
+        <div class="events-skeleton">
+          @for (item of [1, 2, 3, 4]; track item) {
+            <div class="event-skeleton">
+              <div class="skeleton skeleton-small"></div>
+              <div class="skeleton skeleton-large"></div>
+              <div class="skeleton skeleton-medium"></div>
+            </div>
+          }
+        </div>
+
+      } @else if (events.length === 0) {
+
+        <mat-card class="empty-card">
+          <mat-icon>event_busy</mat-icon>
+          <p>No production events found.</p>
+        </mat-card>
+
+      } @else {
+
+        <div class="events-list">
+          @for (event of events; track trackByEvent($index, event)) {
+            <mat-card class="event-card">
+
+              <div class="event-type">
+                {{ event.event_type }}
+              </div>
+
+              <div class="event-content">
+                <div class="event-title">
+                  {{ event.description }}
+                </div>
+
+                <div class="event-meta">
+                  <span>Scene {{ event.scene_id }}</span>
+                  <span>{{ event.location }}</span>
+                  <span>{{ event.timestamp | date:'short' }}</span>
+                </div>
+              </div>
+
+            </mat-card>
+          }
+        </div>
+
+      }
+
+    </section>
+
+  </main>
+
+</div>
