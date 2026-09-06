@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://ai-production-intelligence-ew1m.onrender.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
