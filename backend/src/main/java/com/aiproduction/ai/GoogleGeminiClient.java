@@ -2,29 +2,32 @@ package com.aiproduction.ai;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
-
+import org.springframework.stereotype.Component;
 
 @Component
 @Profile("!test")
 @Conditional(GeminiConfiguredCondition.class)
 public class GoogleGeminiClient implements GeminiClient {
 
-    private static final String MODEL = "gemini-3.5-flash";
+    private static final String MODEL = "gemini-2.5-flash";
 
     private final Client client;
 
     public GoogleGeminiClient() {
-        String apiKey = System.getenv("GOOGLE_API_KEY");
+        String project = System.getenv("GOOGLE_CLOUD_PROJECT");
+        String location = System.getenv().getOrDefault("GOOGLE_CLOUD_LOCATION", "us-central1");
 
-        if (apiKey == null || apiKey.isBlank()) {
-            throw new IllegalStateException("GOOGLE_API_KEY environment variable is required");
+        if (project == null || project.isBlank()) {
+            throw new IllegalStateException(
+                    "GOOGLE_CLOUD_PROJECT environment variable is required");
         }
 
         this.client = Client.builder()
-                .apiKey(apiKey)
+                .project(project)
+                .location(location)
+                .vertexAI(true)
                 .build();
     }
 
