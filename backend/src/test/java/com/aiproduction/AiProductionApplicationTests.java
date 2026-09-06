@@ -10,7 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @SpringBootTest(
     properties = {
         "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
-        "clickhouse.startup-check.enabled=false"
+        "clickhouse.startup-check.enabled=false",
+        "mcp.clickhouse.enabled=false"
     }
 )
 class AiProductionApplicationTests {
