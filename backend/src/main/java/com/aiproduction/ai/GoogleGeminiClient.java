@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Profile;
 @Conditional(GeminiConfiguredCondition.class)
 public class GoogleGeminiClient implements GeminiClient {
 
-    private static final String MODEL = "gemini-3.6-flash";
+    private static final String MODEL = "gemini-3.5-flash";
 
     private final Client client;
 
