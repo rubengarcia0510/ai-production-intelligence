@@ -9,11 +9,11 @@ import com.google.adk.sessions.SessionKey;
 import com.google.adk.tools.mcp.McpToolset;
 import com.google.genai.types.Content;
 import com.google.genai.types.Part;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnBean(McpToolset.class)
+@ConditionalOnProperty(name = "mcp.clickhouse.enabled", havingValue = "true")
 public class ProductionIntelligenceAgent {
 
     private static final String MODEL = "gemini-2.5-flash";
