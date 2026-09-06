@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -38,7 +39,7 @@ class ProductionAnalysisServiceTest {
                 .thenReturn("Camera failure and actor delay threaten Scene 12. Reorder production activities.");
 
         ProductionAnalysisService service =
-                new ProductionAnalysisService(repository, geminiClient);
+                new ProductionAnalysisService(repository, geminiClient, Optional.empty());
 
         ProductionAnalysis result = service.analyze("DEMO-001");
 
@@ -61,7 +62,7 @@ class ProductionAnalysisServiceTest {
         when(repository.findAll()).thenReturn(List.of());
 
         ProductionAnalysisService service =
-                new ProductionAnalysisService(repository, geminiClient);
+                new ProductionAnalysisService(repository, geminiClient, Optional.empty());
 
         ProductionAnalysis result = service.analyze("UNKNOWN");
 

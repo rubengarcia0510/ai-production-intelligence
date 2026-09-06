@@ -11,8 +11,8 @@ public class GeminiConfiguredCondition implements Condition {
             ConditionContext context,
             AnnotatedTypeMetadata metadata) {
 
-        String apiKey = context.getEnvironment().getProperty("GOOGLE_API_KEY");
+        String project = context.getEnvironment().getProperty("GOOGLE_CLOUD_PROJECT");
 
-        return apiKey != null && !apiKey.isBlank();
+        return project != null && !project.isBlank();
     }
 }
