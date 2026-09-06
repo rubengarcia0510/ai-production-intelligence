@@ -2,7 +2,9 @@ package com.aiproduction.agent;
 
 import com.google.adk.agents.LlmAgent;
 import com.google.adk.models.Gemini;
+import com.google.adk.models.VertexCredentials;
 import com.google.adk.runner.InMemoryRunner;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.adk.sessions.SessionKey;
 import com.google.adk.tools.mcp.McpToolset;
 import com.google.genai.types.Content;
@@ -14,24 +16,38 @@ import org.springframework.stereotype.Component;
 @ConditionalOnBean(McpToolset.class)
 public class ProductionIntelligenceAgent {
 
-    private static final String MODEL = "gemini-3.5-flash";
+    private static final String MODEL = "gemini-2.5-flash";
     private static final String APP_NAME = "ai-production-intelligence";
     private static final String USER_ID = "production-intelligence";
 
     private final InMemoryRunner runner;
 
     public ProductionIntelligenceAgent(McpToolset clickHouseMcpToolset) {
-        String apiKey = System.getenv("GOOGLE_API_KEY");
+        String project = System.getenv("GOOGLE_CLOUD_PROJECT");
+        String location = System.getenv().getOrDefault("GOOGLE_CLOUD_LOCATION", "us-central1");
 
-        if (apiKey == null || apiKey.isBlank()) {
+        if (project == null || project.isBlank()) {
             throw new IllegalStateException(
-                    "GOOGLE_API_KEY environment variable is required"
+                    "GOOGLE_CLOUD_PROJECT environment variable is required"
             );
         }
 
+        GoogleCredentials credentials;
+        try {
+            credentials = GoogleCredentials.getApplicationDefault();
+        } catch (java.io.IOException e) {
+            throw new IllegalStateException("Unable to obtain Google Cloud application credentials", e);
+        }
+
+        VertexCredentials vertexCredentials = VertexCredentials.builder()
+                .project(project)
+                .location(location)
+                .credentials(credentials)
+                .build();
+
         Gemini gemini = Gemini.builder()
                 .modelName(MODEL)
-                .apiKey(apiKey)
+                .vertexCredentials(vertexCredentials)
                 .build();
 
         LlmAgent agent = LlmAgent.builder()
