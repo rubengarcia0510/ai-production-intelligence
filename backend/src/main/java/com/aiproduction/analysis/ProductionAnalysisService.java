@@ -64,7 +64,17 @@ public class ProductionAnalysisService {
 
             long agentStart = System.currentTimeMillis();
 
-            String analysis = productionAgent.get().analyze(prompt);
+            String analysis;
+            try {
+                analysis = productionAgent.get().analyze(prompt);
+            } catch (Exception e) {
+                log.warn(
+                        "ADK + ClickHouse MCP failed, falling back to legacy ClickHouse + Gemini flow, productionId={}",
+                        productionId,
+                        e
+                );
+                return analyzeWithLegacyFlow(productionId, totalStart);
+            }
 
             log.info(
                     "Production analysis ADK agent took {} ms, productionId={}",
